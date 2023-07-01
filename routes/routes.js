@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const data = require('../data');
 
-router.get("/blog", async (req, res) => {
+router.get("/", async (req, res) => {
     let blogPosts;
     try {
         blogPosts = await data.getAllPosts();
@@ -15,7 +15,7 @@ router.get("/blog", async (req, res) => {
     res.status(200).json(blogPosts);
 });
 
-router.get("/blog/:blogId", async (req, res) => {
+router.get("/:blogId", async (req, res) => {
     let post;
     try {
         post = await data.getBlogPost(req.params.blogId);
