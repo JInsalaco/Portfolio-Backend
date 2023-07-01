@@ -15,6 +15,4 @@ app.use(express.json({ limit: "50mb" }));
 
 configRoutes(app);
 
-app.listen(port, () => {
-  console.log(`Backend running on http://localhost:${port}`);
-});
+app.listen(port);
