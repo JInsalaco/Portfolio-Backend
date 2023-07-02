@@ -1,6 +1,8 @@
 const MongoClient = require("mongodb").MongoClient
 let _connection = undefined
 let _db = undefined
+const dotenv = require("dotenv")
+dotenv.config()
 
 module.exports = async() => {
   if (!_connection) {
