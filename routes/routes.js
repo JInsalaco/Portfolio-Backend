@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const data = require('../data');
+var xss = require("xss");
+const {checkIfAuthenticated} = require('../auth/authMiddleware');
 
 router.get("/", async (req, res) => {
     let blogPosts;
@@ -27,5 +29,21 @@ router.get("/:blogId", async (req, res) => {
     }
     res.status(200).json(post);
 });
+
+router.post('/publish', checkIfAuthenticated, async(req,res)=>{
+    try{
+        console.log(req.body);
+        const {title, body, image} = req.body;
+        const sanitizedTitle = xss(title);
+        const sanitizedBody = xss(body);
+        await data.createBlogPost(sanitizedTitle,sanitizedBody,image);
+    } catch(e) {
+        res.status(500).json({
+            message: `Server error`
+        })
+        return;
+    }
+    res.status(200).json({message:req.body});
+})
 
 module.exports = router;

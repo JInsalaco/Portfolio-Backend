@@ -4,7 +4,7 @@ const { ObjectId } = require("mongodb");
 
 async function getAllPosts(){
     const posts = await blogPosts();
-    return await posts.find({}).toArray();
+    return await posts.find({}).sort({_id:-1}).toArray();
 }
 
 async function getBlogPost(id){
@@ -13,7 +13,19 @@ async function getBlogPost(id){
     return await posts.findOne({ _id: parsedId });
 }
 
+async function createBlogPost(title,body,image){
+    const posts = await blogPosts();
+    return await posts.insertOne({
+        title: title,
+        body: body,
+        createdBy: "Joseph Insalaco",
+        createdOn: new Date(),
+        image: image,
+    });
+}
+
 module.exports = {
     getAllPosts,
     getBlogPost,
+    createBlogPost,
 }
