@@ -32,11 +32,11 @@ router.get("/:blogId", async (req, res) => {
 
 router.post('/publish', checkIfAuthenticated, async(req,res)=>{
     try{
-        console.log(req.body);
         const {title, body, image} = req.body;
         const sanitizedTitle = xss(title);
         const sanitizedBody = xss(body);
-        await data.createBlogPost(sanitizedTitle,sanitizedBody,image);
+        const sanitizedImage = xss(image);
+        await data.createBlogPost(sanitizedTitle,sanitizedBody,sanitizedImage);
     } catch(e) {
         res.status(500).json({
             message: `Server error`
